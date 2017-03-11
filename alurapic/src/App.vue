@@ -1,64 +1,36 @@
 
 <template>
     <div class="corpo">
-        <h1 class="centralizado">{{titulo}}</h1>
-        <input type="search" class="filtro" v-on:input="filtro = $event.target.value" placeholder="Filtre por parte do título" />
-        {{filtro}}
-        <!--img v-bind:src="foto.url" v-bind:alt="foto.titulo" /-->
-        <ul class="lista-fotos">
-            <li class="lista-fotos-item" v-for="foto of fotosComFiltro">
-                <meu-painel :titulo="foto.titulo">
-                    <!--img class="imagem-rsponsiva" :src="foto.url" :alt="foto.titulo" /-->
-                    <imagem-responsiva :url="foto.url" :titulo="foto.titulo"></imagem-responsiva>
-                </meu-painel>
-            </li>
-        </ul>
-        
-        
+    <!--nav>
+      <ul>       
+          <li><router-link to="/">Home</router-link></li>
+          <li><router-link to="/cadastro">Cadastro</router-link></li>
+          <li v-for="route in routes">
+              <router-link :to="route.path ? route.path : '/'">{{route.titulo}}</router-link>
+          </li>
+      </ul>
+    </nav-->
+        <meu-menu :rotas="routes" />
+        <transition name="pagina">
+        <router-view></router-view>
+        </transition>       
     </div>
 </template>
 
 
 <script>
-import Painel from './components/shared/painel/Painel.vue';
-import ImagemResponsiva from './components/shared/imagem-responsiva/ImagemResponsiva.vue';
+import {routes} from './routes';
+import Menu from './components/shared/menu/Menu.vue';
 export default {
-    components : {
-        'meu-painel' : Painel,
-        'imagem-responsiva' : ImagemResponsiva
+    components: {
+        'meu-menu' : Menu
     },
+    
     data(){
         return {
-            titulo : "Alurapic",
-            fotos:[],
-            filtro: '',
+            routes
         }
-    },
-
-    computed : {
-        fotosComFiltro(){
-            if(this.filtro){
-                /* filtrar */
-                let exp = new RegExp(this.filtro.trim(), 'i');
-                return this.fotos.filter(foto => exp.test(foto.titulo));
-            } else {
-                return this.fotos;
-            }
-        }
-    },
-
-    created(){
-        //alert("Componente criado!");
-        //let promise = this.$http.get("http://localhost:3000/v1/fotos/");
-        //promise.then(res => console.log(res));
-        /*promise.then(res =>  {
-            res.json().then(fotos=> this.fotos = fotos);
-        });*/
-        this.$http.get("http://localhost:3000/v1/fotos/")
-            .then(res => res.json())
-            .then(fotos => this.fotos = fotos, err => console.log(err));
-
-    }
+    }    
 
 }
 
@@ -72,20 +44,13 @@ export default {
         margin: 0 auto;
     }
 
-    .centralizado {
-        text-align: center;
+    .pagina-enter, .pagina-leave-active {
+    opacity: 0
     }
 
-    .lista-fotos {
-        list-style: none;
+    .pagina-enter-active, .pagina-leave-active {
+        transition: opacity .4s
     }
 
-    .lista-fotos .lista-fotos-item {
-        display: inline-block;
-    }
 
-    .filtro {
-        display: block;
-        width: 100%;
-    }
 </style>
