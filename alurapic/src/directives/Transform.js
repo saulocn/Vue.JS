@@ -6,16 +6,21 @@ Vue.directive('meuTransform',  {
         //console.log(el);
         let current = 0;
         el.addEventListener('dblclick', function(){
-            //current+=90;
-            let incremento = 0;
-            let animate = false;
-            if(binding.value){
-                incremento = binding.value.incremento || 90;
-                animate = binding.value.animate;
+            let incremento = binding.value || 90;
+            let efeito;
+            if(!binding.arg || binding.arg == 'rotate'){
+                if(binding.modifiers.reverse){
+                    current-=incremento;
+                } else {
+                    current+=incremento;
+                }
+                
+                efeito = `rotate(${current}deg)`;
+            } else if (binding.arg=='scale'){
+                efeito = `scale(${incremento})`;
             }
-            current+=incremento;
-            el.style.transform=`rotate(${current}deg)`
-            if(animate) el.style.transition='transform 0.5s';
+            el.style.transform=efeito;
+            if(binding.modifiers.animate) el.style.transition='transform 0.5s';
         });
     }
 });

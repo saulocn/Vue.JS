@@ -64,6 +64,11 @@ export default {
     transition: opacity .4s
   }
 
+ /* estilos anteriores omitidos */
+
+  .painel-conteudo {
+    overflow: hidden;
+  }
   
 </style>
 
