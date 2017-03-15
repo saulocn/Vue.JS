@@ -7,7 +7,7 @@
         <p v-show="mensagem" class="centralizado">{{mensagem}}</p>
         <!--img v-bind:src="foto.url" v-bind:alt="foto.titulo" /-->
         <ul class="lista-fotos">
-            <li class="lista-fotos-item" v-for="foto of fotosComFiltro">
+            <li class="lista-fotos-item" v-for="foto of fotosComFiltro" v-key="foto._id">
                 <meu-painel  :titulo="foto.titulo">
                     <!--img class="imagem-rsponsiva" :src="foto.url" :alt="foto.titulo" /-->
                     <imagem-responsiva v-meu-transform:scale.animate.reverse="1.2"  :url="foto.url" :titulo="foto.titulo" />
