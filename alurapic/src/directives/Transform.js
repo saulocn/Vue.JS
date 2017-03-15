@@ -1,6 +1,5 @@
-import Vue from 'vue';
+export default {
 
-Vue.directive('meuTransform',  {
     bind(el, binding, vnode) {
         //console.log('Diretiva associada');
         //console.log(el);
@@ -23,4 +22,4 @@ Vue.directive('meuTransform',  {
             if(binding.modifiers.animate) el.style.transition='transform 0.5s';
         });
     }
-});
+};
